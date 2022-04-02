@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} Inicio - myCRYPTO {% endblock %}
+
+{% block content %}
+    <h1 style="text-align:center; font-weight: bold;">MOVIMIENTOS</h1>
+    <table class="tabla" border="1px">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>From</th>
+                <th>Q</th>
+                <th>To</th>
+                <th>Q</th>
+                <th>P.U</th>
+            </tr>
+        </thead>
+        {% if error_base_datos %}
+            <h5>{{ error_base_datos }}</h5>
+        {% endif %}
+        <tbody>
+            {% if not registros %}
+                <tr>
+                    <td class="noMovimientos"> SIN MOVIMIENTOS </td>
+                </tr>
+            {% else %}
+                {% for item in registros %}
+                    <tr>
+                        <td>{{item[0]}}</td>
+                        <td>{{item[1]}}</td>
+                        <td>{{item[2]}}</td>
+                        {% if item[5] >= 1 %}
+                        <td>{{ "{:,.2f}".format(item[5])}}</td>
+                        {% else %}
+                        <td>{{ "{:,.5f}".format(item[5])}}</td>
+                        {% endif %}
+                        <td>{{ item[4] }}</td>
+                        <td>{{ "{:,.2f}".format(item[3])}}</td>
+                        {% if item[3]/item[5] >= 1 %}
+                        <td>{{ "{:,.2f}".format(item[5]/item[3]) }}&nbsp;{{ item[2] }}</td>
+                        {% else %}
+                        <td>{{ "{:,.5f}".format(item[5]/item[3]) }}&nbsp;{{ item[2] }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+        <a href="/status">Status</a>
+        <a href="/purchase">Compra </a>
+{% endblock %}

@@ -1,0 +1,71 @@
+<header style="text-align: center;">{% extends "base.html" %}</header>
+
+{% block title %} Compras - myCRYPTO {% endblock %}
+
+{% block content %}  
+    <h1 class="tituloGrande">COMPRA DE CRIPTOS</h1>
+    <hr width="50%" size="20"/>
+    <p class="textito">From:</p>
+
+
+    <form class="textito"; action="/purchase" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.from_moneda(style="width:200px") }}
+        {{ form.to_cantidad(style="width:150px", placeholder="Cantidad") }}
+        
+        
+
+        <div>
+            <p>To:</p>
+                {{ form.to_moneda(style="width:200px") }}
+                {{ form.submitCalcular(class="mi-boton") }}
+                
+        </div>
+
+        <div>
+            <p>Q:</p> {{result}}
+                {% if data[0] >= 1 %}
+                {{ "{:,.2f}".format(data[0]) }} {{ data[2] }}
+                {% else %}
+                {{ "{:,.5f}".format(data[0]) }} {{ data[2] }}
+                {% endif %}
+            <p>---</p>
+        </div>
+
+        <div>
+            <p>P.U.:</p>
+                {% if data[1] >= 1 %}
+                    {{"{:,.2f}".format(data[1]) }} {{ data[3] }}
+                {% else %}
+                    {{"{:,.5f}".format(data[1]) }} {{ data[3] }}
+                {% endif %}
+                {% if validaError %}
+                    <p class="error">{{ validaError }}</p>
+                {% endif %}
+                {% if monedaError %}
+                    <p class="error">{{ monedaError }}</p>
+                {% endif %}
+                {% if monedaIncompatible %}
+                    <p class="error">{{ monedaIncompatible }}</p>
+                {% endif %}
+                {% if alerta %}
+                    <p class="error">{{ alerta }}</p>
+                {% endif %}
+                {% if errorAPI %}
+                    <p class="error">{{ errorAPI }}</p>
+                {% endif %}
+                {% if error_base_datos %}
+                    <p class="error">{{ error_base_datos }}</p>
+                {% endif %}
+                {% if sinSaldo %}
+                    <p class="error">{{ sinSaldo }}</p>
+                {% endif %}
+
+                {{ form.submitAceptar(class="mi-boton") }}
+           
+        </div>
+
+        <a href="/purchase ">Borrar</a> ___________________ <a href="/">Inicio</a>
+    </form>
+    
+{% endblock %}
